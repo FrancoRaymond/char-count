@@ -1,34 +1,46 @@
-import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
-import './App.css'
+import React,{useState} from 'react'
+import Navbar from './components/Navbar'
+import CountTiles from './components/CountTiles';
+
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [formData, setFormData] = useState({ text: '', spaces: '' });
+
+  const handleChange = (e) => {
+    const { name, value } = e.target;
+    setFormData((prevData) => ({ ...prevData, [name]: value }));
+  };
 
   return (
-    <>
+    <section className='bg-gray-600'>
+      <Navbar />
       <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
+        <h2>Analyze your text real-time.</h2>
+        <form action="" className='flex flex-col'>
+        <textarea 
+            name='text' 
+            cols="14" 
+            rows="7"
+            className='py-4 px-3 rounded-md bg-slate-800 outline-none text-white resize-none'
+            placeholder='Enter your message'
+            onChange={handleChange}
+            value={formData.text}
+          />
+          <label htmlFor="checkbox" className='flex'>
+            <input 
+              type="checkbox" 
+              className='ml-3'
+              value='excludeSpaces'
+              name='spaces'
+              onChange={handleChange}
+            />Exclude spaces
+          </label> 
+        </form>
+        <h1>{formData.text.length}</h1>
+        <h2>{formData.spaces}</h2>
       </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
-        </button>
-        <p>
-          Edit <code>src/App.jsx</code> and save to test HMR
-        </p>
-      </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
-    </>
+      <CountTiles />
+    </section>
   )
 }
 
